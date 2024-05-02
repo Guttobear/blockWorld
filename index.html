@@ -49,6 +49,11 @@
                 top: 50%;
                 transform: translate(-50%, -50%);
             }
+            .platform-texture {
+    background-image: url('platform_texture.jpg');
+    background-size: cover;
+}
+
         </style>
     </head>
     <body>
@@ -73,7 +78,7 @@
         <div id="hotbar-container">
             <div class="hotbar-item" style="background-color: #ff0000;"></div>
             <div class="hotbar-item" style="background-color: #00ff00;"></div>
-            <div class="hotbar-item" style="background-color: #0000ff;"></div>
+            <div class="hotbar-item platform-texture"></div>
             <div class="hotbar-item" style="background-color: #ffff00;"></div>
             <div class="hotbar-item" style="background-color: #ff00ff;"></div>
             <div class="hotbar-item" style="background-color: #00ffff;"></div>
@@ -82,6 +87,7 @@
             <div class="hotbar-item" style="background-color: #800000;"></div>
             <div class="hotbar-item" style="background-color: #008000;"></div>
         </div>
+        
         <div id="crosshair"></div>
         <script type="module">
             let isSprinting = false;
