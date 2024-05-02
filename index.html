@@ -448,11 +448,12 @@
         0x00ffff,  // Cyan
         0xffa500,  // Orange
         0x808080,  // Gray
-        0x008000,  // Dark Green
-        0x008000   // Dark Green (same as the 9th color)
+        0x800000,  // Dark Red
+        0x008000   // Dark Green
     ];
+
     const selectedColor = colors[selectedBlockColor];
-    
+
     // Check if the selected color is a string (assumed to be a texture URL)
     if (typeof selectedColor === 'string') {
         // Load texture
@@ -461,8 +462,10 @@
         return new THREE.MeshStandardMaterial({ map: texture });
     } else {
         // Return color as usual
-        return selectedColor;
+        return new THREE.MeshStandardMaterial({ color: selectedColor });
     }
+}
+
 }
 
             function updateHotbarUI() {
