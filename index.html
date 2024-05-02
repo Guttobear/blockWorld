@@ -485,7 +485,7 @@ for (let l = 0; l < 20; l++) {
         for (let j = 0; j < hillDepth; j++) {
             // Randomize block height
             const blockHeight = Math.floor(Math.random() * 3) + 1;
-
+            const hillTextureLoader = new THREE.TextureLoader();
             // Create block geometry and material
             const hillBlockGeometry = new THREE.BoxGeometry(1, blockHeight, 1);
             const hillBlockMaterial = new THREE.MeshStandardMaterial({ map: hillTexture });
