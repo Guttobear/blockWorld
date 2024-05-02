@@ -296,7 +296,9 @@
             }
             function placeBlock() {
                 const blockGeometry = new THREE.BoxGeometry();
-                const blockMaterial = new THREE.MeshStandardMaterial({ color: getSelectedBlockColor() });
+                const blockMaterial = getSelectedBlockColor();
+               
+
                 const newBlock = new THREE.Mesh(blockGeometry, blockMaterial);
                 newBlock.castShadow = true;
                 newBlock.receiveShadow = true;
