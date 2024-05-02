@@ -471,22 +471,49 @@
                     scene.add(leaves);
                     blocks.push(leaves);
                 }
-                for (let l = 0; l < 20; l++) {
-                    const hillGeometry = new THREE.BoxGeometry(Math.floor(Math.random() * 5) + 5, 1, Math.floor(Math.random() * 5) + 5);
-                    const hillTextureLoader = new THREE.TextureLoader();
+                // Generate hills
+for (let l = 0; l < 20; l++) {
+    // Randomize hill dimensions
+    const hillWidth = Math.floor(Math.random() * 5) + 5;
+    const hillDepth = Math.floor(Math.random() * 5) + 5;
 
-                    const hillTexture = hillTextureLoader.load("hill_texture.jpg"); // Load your hill texture image here
-                    const hillMaterial = new THREE.MeshStandardMaterial({ map: hillTexture }); // Apply the texture to the material
-                    const hill = new THREE.Mesh(hillGeometry, hillMaterial);
-                    hill.position.set(Math.random() * 200 - 100, gridHeight / 2, Math.random() * 200 - 100);
-                    hill.castShadow = true;
-                    hill.receiveShadow = true;
-                    hill.userData = { collision: true };
-                    scene.add(hill);
-                    blocks.push(hill);
-                }
+    // Initialize array to store block references
+    const hillBlocks = [];
+
+    // Generate blocks for the hill
+    for (let i = 0; i < hillWidth; i++) {
+        for (let j = 0; j < hillDepth; j++) {
+            // Randomize block height
+            const blockHeight = Math.floor(Math.random() * 3) + 1;
+
+            // Create block geometry and material
+            const hillBlockGeometry = new THREE.BoxGeometry(1, blockHeight, 1);
+            const hillBlockMaterial = new THREE.MeshStandardMaterial({ map: hillTexture });
+
+            // Create block mesh
+            const hillBlock = new THREE.Mesh(hillBlockGeometry, hillBlockMaterial);
+
+            // Calculate position based on grid and randomize y position
+            const xPosition = (Math.random() - 0.5) * 5 + i;
+            const zPosition = (Math.random() - 0.5) * 5 + j;
+            const yPosition = blockHeight / 2; // Center the block vertically
+
+            // Set position of the block
+            hillBlock.position.set(xPosition, yPosition, zPosition);
+
+            // Add block to scene
+            scene.add(hillBlock);
+
+            // Push block reference to array
+            hillBlocks.push(hillBlock);
+        }
+    }
+
+    // Add all blocks of the hill to the blocks array
+    blocks.push(...hillBlocks);
+}
+
             }
         </script>
     </body>
 </html>
-
