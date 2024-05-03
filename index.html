@@ -504,7 +504,6 @@
                     blocks.push(leaves);
                 }
                 for (let l = 0; l < 20; l++) {
-    // Define hill parameters
     const hillWidth = Math.floor(Math.random() * 5) + 5;
     const hillLength = Math.floor(Math.random() * 5) + 5;
     const hillHeight = Math.floor(Math.random() * 5) + 5;
@@ -518,15 +517,17 @@
             const hillTexture = hillTextureLoader.load("hill_texture.jpg"); // Load your hill texture image here
             const hillMaterial = new THREE.MeshStandardMaterial({ map: hillTexture }); // Apply the texture to the material
             const block = new THREE.Mesh(blockGeometry, hillMaterial);
-            block.position.set(i - hillWidth / 2, 0.5, j - hillLength / 2); // Arrange blocks in a grid
+            block.position.set(i - hillWidth / 2, Math.random() * hillHeight, j - hillLength / 2); // Randomize height within the hill
             block.castShadow = true;
             block.receiveShadow = true;
+            block.userData = { collision: true };
             hill.add(block); // Add block to the hill group
+            blocks.push(block); // Add block to the blocks array for collision detection
         }
     }
 
     // Scale the whole hill to the desired size
-    hill.scale.set(hillWidth, hillHeight, hillLength);
+    hill.scale.set(hillWidth, 1, hillLength);
     
     // Position the hill randomly
     hill.position.set(Math.random() * 200 - 100, gridHeight / 2, Math.random() * 200 - 100);
@@ -535,8 +536,8 @@
     hill.userData = { collision: true };
 
     scene.add(hill); // Add the hill group to the scene
-    blocks.push(hill); // Add the hill group to the blocks array
 }
+
 
             }
         </script>
