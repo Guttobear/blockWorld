@@ -504,42 +504,65 @@
                     blocks.push(leaves);
                 }
                 for (let l = 0; l < 20; l++) {
-    const hillWidth = Math.floor(Math.random() * 5) + 5;
-    const hillLength = Math.floor(Math.random() * 5) + 5;
-    const hillHeight = Math.floor(Math.random() * 5) + 5;
+                    const hillGeometry = new THREE.BoxGeometry(Math.floor(Math.random() * 5) + 5, 1, Math.floor(Math.random() * 5) + 5);
+                    const hillTextureLoader = new THREE.TextureLoader();
 
-    const hill = new THREE.Group(); // Create a group to hold the blocks of the hill
-
-    for (let i = 0; i < hillWidth; i++) {
-        for (let j = 0; j < hillLength; j++) {
-            const blockGeometry = new THREE.BoxGeometry(1, 1, 1); // Each block is a cube
-            const hillTextureLoader = new THREE.TextureLoader();
-            const hillTexture = hillTextureLoader.load("hill_texture.jpg"); // Load your hill texture image here
-            const hillMaterial = new THREE.MeshStandardMaterial({ map: hillTexture }); // Apply the texture to the material
-            const block = new THREE.Mesh(blockGeometry, hillMaterial);
-            block.position.set(i - hillWidth / 2, Math.random() * hillHeight, j - hillLength / 2); // Randomize height within the hill
-            block.castShadow = true;
-            block.receiveShadow = true;
-            block.userData = { collision: true };
-            hill.add(block); // Add block to the hill group
-            blocks.push(block); // Add block to the blocks array for collision detection
-        }
-    }
-
-    // Scale the whole hill to the desired size
-    hill.scale.set(hillWidth, 1, hillLength);
-    
-    // Position the hill randomly
-    hill.position.set(Math.random() * 200 - 100, gridHeight / 2, Math.random() * 200 - 100);
-    
-    // Set collision property for the whole hill
-    hill.userData = { collision: true };
-
-    scene.add(hill); // Add the hill group to the scene
-}
-
+                    const hillTexture = hillTextureLoader.load("hill_texture.jpg"); // Load your hill texture image here
+                    const hillMaterial = new THREE.MeshStandardMaterial({ map: hillTexture }); // Apply the texture to the material
+                    const hill = new THREE.Mesh(hillGeometry, hillMaterial);
+                    hill.position.set(Math.random() * 200 - 100, gridHeight / 2, Math.random() * 200 - 100);
+                    hill.castShadow = true;
+                    hill.receiveShadow = true;
+                    hill.userData = { collision: true };
+                    scene.add(hill);
+                    blocks.push(hill);
+                }
 
             }
+            // Import Perlin noise library
+import SimplexNoise from 'simplex-noise';
+
+// Create a Simplex noise object
+const simplex = new SimplexNoise();
+
+// Function to generate terrain heights using Perlin noise
+function generateTerrainHeight(x, y) {
+    // Adjust scale and amplitude to control terrain appearance
+    const scale = 0.1;
+    const amplitude = 10;
+
+    // Generate Perlin noise value
+    const noiseValue = simplex.noise2D(x * scale, y * scale);
+
+    // Map noise value to terrain height
+    return noiseValue * amplitude;
+}
+
+// Function to create terrain geometry
+function createTerrainGeometry() {
+    const geometry = new THREE.PlaneGeometry(200, 200, 100, 100);
+
+    // Adjust vertices' heights based on Perlin noise
+    for (let i = 0; i < geometry.vertices.length; i++) {
+        const vertex = geometry.vertices[i];
+        const height = generateTerrainHeight(vertex.x, vertex.y);
+        vertex.z = height;
+    }
+
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+    return geometry;
+}
+
+// Create terrain mesh
+const terrainGeometry = createTerrainGeometry();
+const terrainMaterial = new THREE.MeshStandardMaterial({ color: 0x00ff00 });
+const terrainMesh = new THREE.Mesh(terrainGeometry, terrainMaterial);
+terrainMesh.rotation.x = -Math.PI / 2; // Rotate to lay flat on the ground
+terrainMesh.receiveShadow = true;
+scene.add(terrainMesh);
+
         </script>
     </body>
 </html>
