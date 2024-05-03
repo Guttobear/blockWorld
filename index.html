@@ -62,14 +62,25 @@
             <source src="block_break_sound.mp3" type="audio/mpeg" />
             Your browser does not support the audio element.
         </audio>
+        <div id="mainMenu" style="display: none;">
+            <div id="menuOverlay"></div>
+            <div id="menuContent">
+                <h2>Main Menu</h2>
+                <button id="resumeButton">Resume</button>
+                <button id="restartButton">Restart Map</button>
+                <button id="quitButton">Quit</button>
+            </div>
+        </div>
         <div id="ui">
             <div id="position"></div>
             <div id="inventory"></div>
-
+            
             <div id="instructions">
                 
                 <script type="text/javascript" src="//counter.websiteout.com/js/22/0/0/0"></script>
             </div>
+            
+            
             <div id="feedback"></div>
         </div>
         <div id="hotbar-container">
@@ -87,6 +98,36 @@
         
         <div id="crosshair"></div>
         <script type="module">
+               document.addEventListener("keydown", function(event) {
+        if (event.key === "Escape") {
+            toggleMainMenu(); // Show/hide main menu
+        }
+    });
+
+    function toggleMainMenu() {
+        const mainMenu = document.getElementById("mainMenu");
+        if (mainMenu.style.display === "none") {
+            mainMenu.style.display = "block";
+        } else {
+            mainMenu.style.display = "none";
+        }
+    }
+
+    document.getElementById("resumeButton").addEventListener("click", function() {
+        toggleMainMenu(); // Hide the main menu
+    });
+
+    document.getElementById("restartButton").addEventListener("click", function() {
+        // Add logic to restart the map
+        // For example, you can reload the page
+        window.location.reload();
+    });
+
+    document.getElementById("quitButton").addEventListener("click", function() {
+        // Add logic to quit the game
+        // For example, you can close the window
+        window.close();
+    });
             let isSprinting = false;
             const walkSpeed = 0.12;
             const sprintSpeed = 0.26;
