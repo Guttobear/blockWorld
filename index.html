@@ -50,6 +50,64 @@
                 transform: translate(-50%, -50%);
             }
             
+            #mainMenu {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+#menuOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+#menuContent {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+}
+
+#menuContent h2 {
+    color: #fff;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+#menuContent ul {
+    list-style: none;
+    padding: 0;
+}
+
+#menuContent li {
+    margin-bottom: 10px;
+}
+
+#menuContent a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 10px 20px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+    display: inline-block;
+    transition: all 0.3s ease;
+}
+
+#menuContent a:hover {
+    background-color: #fff;
+    color: #000;
+}
 
         </style>
     </head>
@@ -62,15 +120,7 @@
             <source src="block_break_sound.mp3" type="audio/mpeg" />
             Your browser does not support the audio element.
         </audio>
-        <div id="mainMenu" style="display: none;">
-            <div id="menuOverlay"></div>
-            <div id="menuContent">
-                <h2>Main Menu</h2>
-                <button id="resumeButton">Resume</button>
-                <button id="restartButton">Restart Map</button>
-                <button id="quitButton">Quit</button>
-            </div>
-        </div>
+       
         <div id="ui">
             <div id="position"></div>
             <div id="inventory"></div>
@@ -95,10 +145,22 @@
             <div class="hotbar-item" style="background-color: #800000;"></div>
             <div class="hotbar-item" style="background-color: #008000;"></div>
         </div>
+        <div id="mainMenu" style="display: none;">
+            <div id="menuOverlay"></div>
+            <div id="menuContent">
+                <h2>Paused</h2>
+                <ul>
+                    <li><a id="resumeButton">Resume Game</a></li>
+                    <li><a id="restartButton">Save and Quit to Title</a></li>
+                    <li><a id="quitButton">Quit Game</a></li>
+                </ul>
+            </div>
+        </div>
         
         <div id="crosshair"></div>
         <script type="module">
-               document.addEventListener("keydown", function(event) {
+   
+   document.addEventListener("keydown", function(event) {
         if (event.key === "Escape") {
             toggleMainMenu(); // Show/hide main menu
         }
@@ -128,6 +190,8 @@
         // For example, you can close the window
         window.close();
     });
+
+
             let isSprinting = false;
             const walkSpeed = 0.12;
             const sprintSpeed = 0.26;
