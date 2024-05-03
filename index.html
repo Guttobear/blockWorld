@@ -4,7 +4,7 @@
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>BlockWorld</title>
-
+        
         <style>
             body {
                 margin: 0;
@@ -438,13 +438,14 @@
                 updateHotbarUI();
             }
             function getSelectedBlockColor() {
+                function getSelectedBlockColor() {
     const colors = [
         0xff0000,  // Red
         0x00ff00,  // Green
         // Use platform texture for the third color
         "platform_texture.jpg", 
         "gold_block.jpg",
-        "trunk.jpg",
+        "trunk.jpg", // Oak log
         0x00ffff,  // Cyan
         0xffa500,  // Orange
         0x808080,  // Gray
@@ -459,11 +460,26 @@
         // Load texture
         const textureLoader = new THREE.TextureLoader();
         const texture = textureLoader.load(selectedColor);
-        return new THREE.MeshStandardMaterial({ map: texture });
+
+        // Create material with texture for all sides
+        const material = new THREE.MeshStandardMaterial({ map: texture });
+
+        // Check if the selected color is for oak log
+        if (selectedBlockColor === 4) {
+            // Apply a different texture to the top face of the oak block
+            const topTexture = textureLoader.load("top_texture.jpg"); // Replace "top_texture.jpg" with your desired texture URL
+            material.map.repeat.set(1, 1); // Reset repeat to avoid repetition on the top face
+            material.map.offset.set(0, 0); // Reset offset to avoid displacement on the top face
+            material.map = topTexture; // Apply the top texture to the material
+        }
+
+        return material;
     } else {
         // Return color as usual
         return new THREE.MeshStandardMaterial({ color: selectedColor });
     }
+}
+
 }
 
 
