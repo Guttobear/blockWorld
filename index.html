@@ -437,13 +437,25 @@
                 updateUI();
                 updateHotbarUI();
             }
+            const blockTextures = {
+    grass: "platform_texture.png",
+    gold: "gold_block.png",
+    wood: "trunk.png",
+    
+    // Add more blocks as needed
+};
+
+// Iterate over the blocks and their textures
+for (let block in blockTextures) {
+    console.log(`Block: ${block}, Texture: ${blockTextures[block]}`);
+}
             function getSelectedBlockColor() {
     const colors = [
         0xff0000,  // Red
         0x00ff00,  // Green
         // Use platform texture for the third color
         "platform_texture.jpg", 
-        "gold_block.jpg",
+        "gold",
         "trunk.jpg",
         0x00ffff,  // Cyan
         0xffa500,  // Orange
