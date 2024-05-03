@@ -437,25 +437,13 @@
                 updateUI();
                 updateHotbarUI();
             }
-            const blockTextures = {
-    grass: "platform_texture.png",
-    gold: "gold_block.png",
-    wood: "trunk.png",
-    
-    // Add more blocks as needed
-};
-
-// Iterate over the blocks and their textures
-for (let block in blockTextures) {
-    console.log(`Block: ${block}, Texture: ${blockTextures[block]}`);
-}
             function getSelectedBlockColor() {
     const colors = [
         0xff0000,  // Red
         0x00ff00,  // Green
         // Use platform texture for the third color
         "platform_texture.jpg", 
-        "gold",
+        "gold_block.jpg",
         "trunk.jpg",
         0x00ffff,  // Cyan
         0xffa500,  // Orange
@@ -516,19 +504,40 @@ for (let block in blockTextures) {
                     blocks.push(leaves);
                 }
                 for (let l = 0; l < 20; l++) {
-                    const hillGeometry = new THREE.BoxGeometry(Math.floor(Math.random() * 5) + 5, 1, Math.floor(Math.random() * 5) + 5);
-                    const hillTextureLoader = new THREE.TextureLoader();
+    // Define hill parameters
+    const hillWidth = Math.floor(Math.random() * 5) + 5;
+    const hillLength = Math.floor(Math.random() * 5) + 5;
+    const hillHeight = Math.floor(Math.random() * 5) + 5;
 
-                    const hillTexture = hillTextureLoader.load("hill_texture.jpg"); // Load your hill texture image here
-                    const hillMaterial = new THREE.MeshStandardMaterial({ map: hillTexture }); // Apply the texture to the material
-                    const hill = new THREE.Mesh(hillGeometry, hillMaterial);
-                    hill.position.set(Math.random() * 200 - 100, gridHeight / 2, Math.random() * 200 - 100);
-                    hill.castShadow = true;
-                    hill.receiveShadow = true;
-                    hill.userData = { collision: true };
-                    scene.add(hill);
-                    blocks.push(hill);
-                }
+    const hill = new THREE.Group(); // Create a group to hold the blocks of the hill
+
+    for (let i = 0; i < hillWidth; i++) {
+        for (let j = 0; j < hillLength; j++) {
+            const blockGeometry = new THREE.BoxGeometry(1, 1, 1); // Each block is a cube
+            const hillTextureLoader = new THREE.TextureLoader();
+            const hillTexture = hillTextureLoader.load("hill_texture.jpg"); // Load your hill texture image here
+            const hillMaterial = new THREE.MeshStandardMaterial({ map: hillTexture }); // Apply the texture to the material
+            const block = new THREE.Mesh(blockGeometry, hillMaterial);
+            block.position.set(i - hillWidth / 2, 0.5, j - hillLength / 2); // Arrange blocks in a grid
+            block.castShadow = true;
+            block.receiveShadow = true;
+            hill.add(block); // Add block to the hill group
+        }
+    }
+
+    // Scale the whole hill to the desired size
+    hill.scale.set(hillWidth, hillHeight, hillLength);
+    
+    // Position the hill randomly
+    hill.position.set(Math.random() * 200 - 100, gridHeight / 2, Math.random() * 200 - 100);
+    
+    // Set collision property for the whole hill
+    hill.userData = { collision: true };
+
+    scene.add(hill); // Add the hill group to the scene
+    blocks.push(hill); // Add the hill group to the blocks array
+}
+
             }
         </script>
     </body>
