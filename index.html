@@ -266,7 +266,7 @@
                 for (const block of blocks) {
                     const distance = player.position.distanceTo(block.position);
                     if (distance < blockCollisionThreshold) {
-                        const particleColor = block.material.color.clone();
+                        const particleColor = block.material.map.clone();
                         const particles = createParticle(block.position, particleColor);
                         scene.remove(block);
                         blocks.splice(blocks.indexOf(block), 1);
