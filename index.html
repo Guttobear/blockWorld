@@ -438,41 +438,51 @@
                 updateHotbarUI();
             }
             function getSelectedBlockColor() {
-    const colors = [
-        0xff0000,  // Red
-        0x00ff00,  // Green
-        // Use platform texture for the third color
-        "platform_texture.jpg",
-        "gold_block.jpg",
-        0xff00ff,  // Magenta
-        0x00ffff,  // Cyan
-        0xffa500,  // Orange
-        0x808080,  // Gray
-        0x800000,  // Dark Red
-        0x008000   // Dark Green
-    ];
+                const blockTypes = [
+    { name: "Red Block", color: 0xff0000 }, // Red
+    { name: "Green Block", color: 0x00ff00 }, // Green
+    { name: "Platform", texture: "platform_texture.jpg" },
+    { name: "Gold Block", texture: "gold_block.jpg" },
+    { name: "Magenta Block", color: 0xff00ff }, // Magenta
+    { name: "Cyan Block", color: 0x00ffff }, // Cyan
+    { name: "Orange Block", color: 0xffa500 }, // Orange
+    { name: "Gray Block", color: 0x808080 }, // Gray
+    { name: "Dark Red Block", color: 0x800000 }, // Dark Red
+    { name: "Dark Green Block", color: 0x008000 } // Dark Green
+];
 
-    const selectedColor = colors[selectedBlockColor];
+function setSelectedBlock(index) {
+    selectedBlock = blockTypes[index];
+    updateUI();
+    updateHotbarUI();
+}
 
-    // Check if the selected color is a string (assumed to be a texture URL)
-    if (typeof selectedColor === 'string') {
-        // Load texture
+function getSelectedBlockMaterial() {
+    if (selectedBlock.texture) {
         const textureLoader = new THREE.TextureLoader();
-        const texture = textureLoader.load(selectedColor);
+        const texture = textureLoader.load(selectedBlock.texture);
         return new THREE.MeshStandardMaterial({ map: texture });
     } else {
-        // Return color as usual
-        return new THREE.MeshStandardMaterial({ color: selectedColor });
+        return new THREE.MeshStandardMaterial({ color: selectedBlock.color });
     }
 }
 
+function updateHotbarUI() {
+    const hotbarItems = document.querySelectorAll(".hotbar-item");
+    hotbarItems.forEach((item, index) => {
+        item.style.backgroundImage = selectedBlock.texture ? `url('${selectedBlock.texture}')` : '';
+        item.style.backgroundColor = selectedBlock.color ? `#${selectedBlock.color.toString(16)}` : '';
+        item.classList.toggle("selected", index === selectedBlockColor);
+    });
+}
 
-
-            function updateHotbarUI() {
-                const hotbarItems = document.querySelectorAll(".hotbar-item");
-                hotbarItems.forEach((item, index) => {
-                    item.classList.toggle("selected", index === selectedBlockColor);
-                });
+document.addEventListener("DOMContentLoaded", () => {
+    // Add event listeners for hotbar items
+    const hotbarItems = document.querySelectorAll(".hotbar-item");
+    hotbarItems.forEach((item, index) => {
+        item.addEventListener("click", () => setSelectedBlock(index));
+    });
+});
             }
             for (let i = 0; i < 10; i++) {
                 const trunk = new THREE.Mesh(new THREE.BoxGeometry(1, 1.5, 1), new THREE.MeshStandardMaterial({ map: trunkt }));
