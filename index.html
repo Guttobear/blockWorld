@@ -169,15 +169,31 @@
                     case "a":
                         moveState.right = true;
                         break;
-                    case " ":
-                        if (canJump) {
-                            player.position.y += jumpVelocity;
-                            canJump = false;
-                            setTimeout(() => {
-                                canJump = true;
-                            }, 600);
-                        }
-                        break;
+                        case " ":
+    if (canJump) {
+        const jumpHeight = 2; // Adjust the jump height as needed
+        const jumpDuration = 500; // Adjust the jump duration in milliseconds as needed
+        const initialY = player.position.y;
+        const targetY = initialY + jumpHeight;
+        const startTime = Date.now();
+
+        const jumpAnimation = () => {
+            const elapsedTime = Date.now() - startTime;
+            const progress = Math.min(elapsedTime / jumpDuration, 1); // Ensure progress doesn't exceed 1
+            player.position.y = initialY + jumpHeight * Math.sin(progress * Math.PI); // Use a sinusoidal function for smoother animation
+
+            if (progress < 1) {
+                requestAnimationFrame(jumpAnimation);
+            } else {
+                canJump = true;
+            }
+        };
+
+        canJump = false;
+        jumpAnimation();
+    }
+    break;
+
                     case "1":
                         setSelectedBlockColor(0);
                         break;
