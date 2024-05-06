@@ -127,9 +127,6 @@
             // Define texture width and height
             const textureWidth = 1; // Assuming the texture width is 1 unit
             const textureHeight = 1; // Assuming the texture height is 1 unit
-// Define texture width and height
-
-// Load texture for the snow biome
 
             const groundTextureLoader = new THREE.TextureLoader();
             const groundTexture = groundTextureLoader.load("platform_texture.jpg");
@@ -141,7 +138,7 @@
             groundTexture.repeat.set(platformSize / textureWidth, platformSize / textureHeight);
             
             const groundMaterial = new THREE.MeshStandardMaterial({ map: groundTexture });
-            
+
             const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
             groundMesh.rotation.x = -Math.PI / 2;
             groundMesh.receiveShadow = true;
@@ -149,25 +146,6 @@
             const platform = new THREE.Mesh(new THREE.BoxGeometry(platformSize, 2, platformSize), new THREE.MeshStandardMaterial({ color: 0xaaaaaa }));
             platform.receiveShadow = true;
             scene.add(platform);
-            const snowTextureLoader = new THREE.TextureLoader();
-const snowTexture = snowTextureLoader.load("snow_texture.jpg"); // Load your snow texture image here
-snowTexture.wrapS = THREE.RepeatWrapping;
-snowTexture.wrapT = THREE.RepeatWrapping;
-snowTexture.repeat.set(platformSize / textureWidth, platformSize / textureHeight);
-
-// Create material for the snow biome platform
-const snowMaterial = new THREE.MeshStandardMaterial({ map: snowTexture });
-
-// Create mesh for the snow biome platform
-const snowPlatform = new THREE.Mesh(new THREE.BoxGeometry(platformSize, 2, platformSize), snowMaterial);
-snowPlatform.receiveShadow = true;
-
-// Position the snow biome platform to the right of the existing platform
-snowPlatform.position.set(platform.position.x + platformSize * 2, platform.position.y, platform.position.z);
-
-// Add the snow biome platform to the scene
-scene.add(snowPlatform);
-
             player.position.set(0, playerHeight / 2, 0);
             const controls = new PointerLockControls(camera, document.body);
             scene.add(controls.getObject());
