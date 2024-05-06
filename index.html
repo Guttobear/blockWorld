@@ -132,7 +132,8 @@
             const groundTexture = groundTextureLoader.load("platform_texture.jpg");
             groundTexture.wrapS = THREE.RepeatWrapping;
             groundTexture.wrapT = THREE.RepeatWrapping;
-            
+            const leaveste = new THREE.TextureLoader();
+            const leavest = leaveste.load("leaves.jpg");
             // Set texture repeat based on platform size and texture dimensions
             groundTexture.repeat.set(platformSize / textureWidth, platformSize / textureHeight);
             
@@ -494,7 +495,7 @@
                     blocks.push(block);
                 }
                 for (let k = 0; k < 27; k++) {
-                    const leaves = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ color: 0x00ff00, transparent: true, opacity: 0.7 }));
+                    const leaves = new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshStandardMaterial({ map: leavest, transparent: true, opacity: 0.7 }));
                     leaves.position.x = trunk.position.x + (((k % 9) % 3) - 1);
                     leaves.position.y = trunk.position.y + Math.floor((k % 9) / 3) + 4;
                     leaves.position.z = trunk.position.z + Math.floor(k / 9) - 1;
