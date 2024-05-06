@@ -366,16 +366,17 @@
             sun.position.set(-100, 40, -100);
             scene.add(sun);
 
-            function createClouds() {
-    for (let i = 0; i < 5; i++) {
-        const positionX = Math.random() * (platformSize / 2) * (Math.random() < 0.5 ? -1 : 1);
-        const positionY = Math.random() * 50 + 40; // Random Y position within a range
-        const positionZ = Math.random() * (platformSize / 2) * (Math.random() < 0.5 ? -1 : 1);
-        createCloud(positionX, positionY, positionZ);
-    }
-}
-createClouds();
-
+            function createCloud(positionX, positionY, positionZ) {
+                const cloudGeometry = new THREE.BoxGeometry(20, 5, 20);
+                const cloudMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff, transparent: true, opacity: 0.3 });
+                const cloud = new THREE.Mesh(cloudGeometry, cloudMaterial);
+                cloud.position.set(positionX, positionY, positionZ);
+                scene.add(cloud);
+            } // Example usage to create multiple clouds createCloud(-160, 45, -10);
+            createCloud(-90, 50, 100);
+            createCloud(80, 42, 155);
+            createCloud(20, 42, 125);
+            createCloud(50, 42, -155);
             const trunkTextureLoader = new THREE.TextureLoader();
             const trunkt = trunkTextureLoader.load("trunk.jpg");
             const ambientLight = new THREE.AmbientLight(0x404040);
