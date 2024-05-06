@@ -304,16 +304,20 @@
                 }
             }
             function checkCollision() {
-                const playerHeadPosition = controls.getObject().position.clone();
-                playerHeadPosition.y += playerHeight;
-                for (const block of blocks) {
-                    const blockBox = new THREE.Box3().setFromObject(block);
-                    const playerBox = new THREE.Box3().setFromObject(player);
-                    if (blockBox.intersectsBox(playerBox)) {
-                        player.position.y = block.position.y + block.geometry.parameters.height + playerHeight / 2;
-                    }
-                }
-            }
+    const playerHeadPosition = controls.getObject().position.clone();
+    playerHeadPosition.y += playerHeight;
+
+    for (const block of blocks) {
+        const blockBox = new THREE.Box3().setFromObject(block);
+        const playerBox = new THREE.Box3().setFromObject(player);
+
+        // Check if the player is intersecting with the block and the block is not too tall
+        if (blockBox.intersectsBox(playerBox) && block.geometry.parameters.height <= 2) {
+            player.position.y = block.position.y + block.geometry.parameters.height + playerHeight / 2;
+        }
+    }
+}
+
             function placeBlock() {
                 const blockGeometry = new THREE.BoxGeometry();
                 const blockMaterial = getSelectedBlockColor();
@@ -458,7 +462,6 @@
     const colors = [
         "redstone_block.jpg",
         "emerald_block.jpg",
-        // Use platform texture for the third color
         "platform_texture.jpg", 
         "gold_block.jpg",
         "trunk.jpg", 
