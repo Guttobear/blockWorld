@@ -80,7 +80,7 @@
             <div class="hotbar-item" style="background-image: url('trunk.jpg');"></div> 
             <div class="hotbar-item" style="background-image: url('diamond_block.jpg');"></div> 
             <div class="hotbar-item" style="background-color: #ffa500;"></div>
-            <div class="hotbar-item" style="background-color: #808080;"></div>
+            <div class="hotbar-item" style="background-image: url('stone.jpg');"></div> 
             <div class="hotbar-item" style="background-color: #800000;"></div>
             <div class="hotbar-item" style="background-color: #008000;"></div>
         </div>
@@ -135,7 +135,7 @@
             
             // Set texture repeat based on platform size and texture dimensions
             groundTexture.repeat.set(platformSize / textureWidth, platformSize / textureHeight);
-
+            
             const groundMaterial = new THREE.MeshStandardMaterial({ map: groundTexture });
 
             const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
@@ -447,7 +447,7 @@
         "trunk.jpg", 
         "diamond_block.jpg",
         0xffa500,  // Orange
-        0x808080,  // Gray
+        "stone.jpg",
         0x800000,  // Dark Red
         0x008000   // Dark Green
     ];
