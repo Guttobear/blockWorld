@@ -138,7 +138,7 @@
             groundTexture.repeat.set(platformSize / textureWidth, platformSize / textureHeight);
             
             const groundMaterial = new THREE.MeshStandardMaterial({ map: groundTexture });
-
+            
             const groundMesh = new THREE.Mesh(groundGeometry, groundMaterial);
             groundMesh.rotation.x = -Math.PI / 2;
             groundMesh.receiveShadow = true;
@@ -170,7 +170,8 @@
                         moveState.right = true;
                         break;
                         case " ":
-    if (canJump) {
+                        
+    if (canJump && player.position.y <= playerHeight / 2 + gridHeight / 2) {
         const jumpHeight = 2; // Adjust the jump height as needed
         const jumpDuration = 500; // Adjust the jump duration in milliseconds as needed
         const initialY = player.position.y;
@@ -181,7 +182,7 @@
             const elapsedTime = Date.now() - startTime;
             const progress = Math.min(elapsedTime / jumpDuration, 1); // Ensure progress doesn't exceed 1
             player.position.y = initialY + jumpHeight * Math.sin(progress * Math.PI); // Use a sinusoidal function for smoother animation
-
+            
             if (progress < 1) {
                 requestAnimationFrame(jumpAnimation);
             } else {
@@ -193,6 +194,7 @@
         jumpAnimation();
     }
     break;
+
 
                     case "1":
                         setSelectedBlockColor(0);
