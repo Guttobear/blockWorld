@@ -317,6 +317,31 @@
         }
     }
 }
+function createRain() {
+    const rainGeometry = new THREE.BufferGeometry();
+    const rainMaterial = new THREE.PointsMaterial({ color: 0xaaaaaa, size: 0.1, transparent: true });
+    const positions = [];
+    for (let i = 0; i < 1000; i++) {
+        const x = Math.random() * 200 - 100;
+        const y = Math.random() * 100 + 50;
+        const z = Math.random() * 200 - 100;
+        positions.push(x, y, z);
+    }
+    rainGeometry.setAttribute("position", new THREE.Float32BufferAttribute(positions, 3));
+    const rain = new THREE.Points(rainGeometry, rainMaterial);
+    scene.add(rain);
+    setTimeout(() => {
+        scene.remove(rain);
+    }, Math.random() * 90000 + 30000); // Random duration between 30 seconds to 2 minutes
+}
+
+function startRain() {
+    createRain();
+    setTimeout(startRain, Math.random() * 240000); // Random interval between 0 seconds to 4 minutes
+}
+
+// Start rain at random intervals
+startRain();
 
             function placeBlock() {
                 const blockGeometry = new THREE.BoxGeometry();
