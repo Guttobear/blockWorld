@@ -494,7 +494,7 @@
                     item.classList.toggle("selected", index === selectedBlockColor);
                 });
             }
-            for (let i = 0; i < 10; i++) {
+            for (let i = 0; i < 15; i++) {
                 const trunk = new THREE.Mesh(new THREE.BoxGeometry(1, 1.5, 1), new THREE.MeshStandardMaterial({ map: trunkt }));
                 trunk.position.set(Math.random() * 200 - 100, gridHeight / 2, Math.random() * 200 - 100);
                 trunk.castShadow = true;
