@@ -342,7 +342,7 @@
             }
             function placeTorch() {
                 const torchGeometry = new THREE.CylinderGeometry(0.2, 0.1, 1, 16);
-                const torchMaterial = new THREE.MeshStandardMaterial({ emissive: 0xffd700, emissiveIntensity: 1, color: 0x000000 });
+                const torchMaterial = new THREE.MeshStandardMaterial({ emissive: 0xffd700, emissiveIntensity: 5, color: 0x000000 });
                 const torch = new THREE.Mesh(torchGeometry, torchMaterial);
                 const playerDirection = new THREE.Vector3();
                 controls.getObject().getWorldDirection(playerDirection);
