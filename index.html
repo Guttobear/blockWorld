@@ -115,19 +115,7 @@ function toggleDebugMode() {
 
     }
     
-    function updateDebugGeometries() {
-    // Update debug geometry for player
-    const playerDebugGeometry = debugObjects[0];
-    playerDebugGeometry.update(player);
     
-    // Update debug geometries for blocks
-    for (let i = 1; i <= blocks.length; i++) {
-        const blockDebugGeometry = debugObjects[i];
-        blockDebugGeometry.update(blocks[i - 1]);
-    }
-
-}
-updateDebugGeometries();
 }
 
 
@@ -481,10 +469,7 @@ document.addEventListener("keydown", (event) => {
                 player.position.y = Math.max(minY, player.position.y);
                 platform.position.y = minY + 0.5;
                 updateUI();
-                if (debugMode) {
-        // Update debug geometries
-        updateDebugGeometries();
-    }
+                
                 renderer.render(scene, camera);
             }
             function breakBlockOnLeftClick(event) {
