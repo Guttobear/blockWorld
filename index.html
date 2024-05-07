@@ -99,7 +99,7 @@ function toggleDebugMode() {
             const debugGeometry = new THREE.BoxHelper(block, 0xffff00); // Yellow color
             scene.add(debugGeometry);
             debugObjects.push(debugGeometry);
-            updateDebugGeometries();
+            
         });
         // Create debug geometry for collision box around player
         const playerDebugGeometry = new THREE.BoxHelper(player, 0xff0000); // Red color
@@ -113,6 +113,7 @@ function toggleDebugMode() {
         debugObjects = []; // Clear debug objects array
 
     }
+    
     function updateDebugGeometries() {
     // Update debug geometry for player
     const playerDebugGeometry = debugObjects[0];
@@ -125,7 +126,7 @@ function toggleDebugMode() {
     }
 }
 }
-
+updateDebugGeometries();
 
 // Event listener for key press to toggle debug mode
 document.addEventListener("keydown", (event) => {
