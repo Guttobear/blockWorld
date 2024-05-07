@@ -105,6 +105,7 @@ function toggleDebugMode() {
         const playerDebugGeometry = new THREE.BoxHelper(player, 0xff0000); // Red color
         scene.add(playerDebugGeometry);
         debugObjects.push(playerDebugGeometry);
+        
     } else {
         // Remove debug geometry from the scene
         debugObjects.forEach(debugObject => {
@@ -124,9 +125,11 @@ function toggleDebugMode() {
         const blockDebugGeometry = debugObjects[i];
         blockDebugGeometry.update(blocks[i - 1]);
     }
-}
+
 }
 updateDebugGeometries();
+}
+
 
 // Event listener for key press to toggle debug mode
 document.addEventListener("keydown", (event) => {
