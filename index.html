@@ -87,6 +87,39 @@
         
         <div id="crosshair"></div>
         <script type="module">
+            let debugMode = false; // Variable to toggle debug mode
+let debugObjects = []; // Array to store debug geometry
+
+// Function to toggle debug mode
+function toggleDebugMode() {
+    debugMode = !debugMode;
+    if (debugMode) {
+        // Create debug geometry for collision boxes or spheres around blocks
+        blocks.forEach(block => {
+            const debugGeometry = new THREE.BoxHelper(block, 0xffff00); // Yellow color
+            scene.add(debugGeometry);
+            debugObjects.push(debugGeometry);
+        });
+        // Create debug geometry for collision box around player
+        const playerDebugGeometry = new THREE.BoxHelper(player, 0xff0000); // Red color
+        scene.add(playerDebugGeometry);
+        debugObjects.push(playerDebugGeometry);
+    } else {
+        // Remove debug geometry from the scene
+        debugObjects.forEach(debugObject => {
+            scene.remove(debugObject);
+        });
+        debugObjects = []; // Clear debug objects array
+    }
+}
+
+// Event listener for key press to toggle debug mode
+document.addEventListener("keydown", (event) => {
+    if (event.key === "c" || event.key === "C") {
+        toggleDebugMode();
+    }
+});
+
             let isSprinting = false;
             const walkSpeed = 0.12;
             const sprintSpeed = 0.26;
@@ -528,7 +561,7 @@
                 for (let l = 0; l < 20; l++) {
                     const hillGeometry = new THREE.BoxGeometry(Math.floor(Math.random() * 5) + 5, 1, Math.floor(Math.random() * 5) + 5);
                     const hillTextureLoader = new THREE.TextureLoader();
-
+                     
                     const hillTexture = hillTextureLoader.load("hill_texture.jpg"); // Load your hill texture image here
                     const hillMaterial = new THREE.MeshStandardMaterial({ map: hillTexture }); // Apply the texture to the material
                     const hill = new THREE.Mesh(hillGeometry, hillMaterial);
