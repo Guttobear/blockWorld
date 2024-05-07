@@ -154,7 +154,7 @@ document.addEventListener("keydown", (event) => {
             document.body.appendChild(renderer.domElement);
             const gridSize = 1;
             const gridHeight = 0.5;
-            const playerHeight = 1;
+            const playerHeight = 2;
             const jumpVelocity = 1;
             let canJump = true;
             const gravity = (9.8 / 60) * 2;
@@ -353,15 +353,21 @@ document.addEventListener("keydown", (event) => {
             }
             function checkCollision() {
     const playerHeadPosition = controls.getObject().position.clone();
+    const playerFeetPosition = player.position.clone(); // Store player's feet position
     playerHeadPosition.y += playerHeight;
-
+    
     for (const block of blocks) {
         const blockBox = new THREE.Box3().setFromObject(block);
         const playerBox = new THREE.Box3().setFromObject(player);
 
-        // Check if the player is intersecting with the block and the block is not too tall
-        if (blockBox.intersectsBox(playerBox) && block.geometry.parameters.height <= 2) {
-            player.position.y = block.position.y + block.geometry.parameters.height + playerHeight / 2;
+        // Check if the player's head or feet is intersecting with the block and the block is not too tall
+        if ((blockBox.intersectsBox(playerBox) || blockBox.intersectsBox(new THREE.Box3().setFromObject(player))) && block.geometry.parameters.height <= 2) {
+            // Adjust player's position based on whether head or feet collided with block
+            if (blockBox.intersectsBox(playerBox)) {
+                player.position.y = block.position.y + block.geometry.parameters.height + playerHeight / 2;
+            } else {
+                player.position.y = block.position.y - playerHeight / 2;
+            }
         }
     }
 }
