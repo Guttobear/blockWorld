@@ -110,8 +110,21 @@ function toggleDebugMode() {
             scene.remove(debugObject);
         });
         debugObjects = []; // Clear debug objects array
+
+    }
+    function updateDebugGeometries() {
+    // Update debug geometry for player
+    const playerDebugGeometry = debugObjects[0];
+    playerDebugGeometry.update(player);
+    
+    // Update debug geometries for blocks
+    for (let i = 1; i <= blocks.length; i++) {
+        const blockDebugGeometry = debugObjects[i];
+        blockDebugGeometry.update(blocks[i - 1]);
     }
 }
+}
+
 
 // Event listener for key press to toggle debug mode
 document.addEventListener("keydown", (event) => {
@@ -439,6 +452,10 @@ document.addEventListener("keydown", (event) => {
                 if (!onGround) {
                     player.position.y -= fallGravity;
                 }
+                if (debugMode) {
+        // Update debug geometries
+        updateDebugGeometries();
+    }
                 moveDirection.z = Number(moveState.forward) - Number(moveState.backward);
                 moveDirection.x = Number(moveState.left) - Number(moveState.right);
                 moveDirection.normalize();
