@@ -317,33 +317,46 @@ document.addEventListener("keydown", (event) => {
                 return particles;
             }
             function breakBlock() {
-                const blockBreakSound = document.getElementById("blockBreakSound");
-                blockBreakSound.currentTime = 0; // Rewind to the beginning of the sound
-                blockBreakSound.play();
-                const blockCollisionThreshold = 3;
-                for (const block of blocks) {
-                    const distance = player.position.distanceTo(block.position);
-                    if (distance < blockCollisionThreshold) {
-                        const particleColor = block.material.map.clone();
-                        const particles = createParticle(block.position, particleColor);
-                        scene.remove(block);
-                        blocks.splice(blocks.indexOf(block), 1);
-                        const particleAnimation = () => {
-                            particles.position.y -= 0.02;
-                            particles.material.opacity -= 0.01;
-                            if (particles.material.opacity <= 0) {
-                                scene.remove(particles);
-                                renderer.dispose();
-                            } else {
-                                requestAnimationFrame(particleAnimation);
-                            }
-                        };
-                        particleAnimation();
-                        console.log("Block broken!");
-                        break;
-                    }
-                }
-            }
+    const blockBreakSound = document.getElementById("blockBreakSound");
+    blockBreakSound.currentTime = 0; // Rewind to the beginning of the sound
+    blockBreakSound.play();
+
+    const blockCollisionThreshold = 3;
+    for (const block of blocks) {
+        const distance = player.position.distanceTo(block.position);
+        if (distance < blockCollisionThreshold) {
+            // Simulate breaking effect
+            breakBlockWithDelay(block);
+            console.log("Block breaking in progress...");
+            break;
+        }
+    }
+}
+
+function breakBlockWithDelay(block) {
+    const breakingDuration = 2000; // 2 seconds breaking duration
+    const startTime = Date.now();
+
+    const breakAnimation = () => {
+        const elapsedTime = Date.now() - startTime;
+        const progress = Math.min(elapsedTime / breakingDuration, 1); // Ensure progress doesn't exceed 1
+
+        // Gradually change block appearance here (e.g., change texture or material properties)
+        block.material.opacity = 1 - progress; // Gradually decrease opacity
+
+        if (progress < 1) {
+            requestAnimationFrame(breakAnimation);
+        } else {
+            // Fully remove the block after breaking
+            scene.remove(block);
+            blocks.splice(blocks.indexOf(block), 1);
+            console.log("Block broken!");
+        }
+    };
+
+    breakAnimation();
+}
+
             function checkCollision() {
     const playerHeadPosition = controls.getObject().position.clone();
     const playerFeetPosition = player.position.clone(); // Store player's feet position
