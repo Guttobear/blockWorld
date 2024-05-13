@@ -507,34 +507,34 @@ document.addEventListener("keydown", (event) => {
                 updateUI();
                 updateHotbarUI();
             }
-            function setSelectedBlockColor(index) {
-    const blockTypes = [
-        { type: "Redstone Block", texture: "redstone_block.jpg" },
-        { type: "Emerald Block", texture: "emerald_block.jpg" },
-        { type: "Platform", texture: "platform_texture.jpg" },
-        { type: "Gold Block", texture: "gold_block.jpg" },
-        { type: "Trunk", texture: "trunk.jpg" },
-        { type: "Diamond Block", texture: "diamond_block.jpg" },
-        { type: "Leaves", texture: "leaves.jpg" },
-        { type: "Stone", texture: "stone.jpg" },
-        { type: "Snow", texture: "snow.jpg" }
+            function getSelectedBlockColor() {
+    const colors = [
+        "redstone_block.jpg",
+        "emerald_block.jpg",
+        "platform_texture.jpg", 
+        "gold_block.jpg",
+        "trunk.jpg", 
+        "diamond_block.jpg",
+        "leaves.jpg",
+        "stone.jpg",
+        "snow.jpg",
+        
     ];
+    
+    const selectedColor = colors[selectedBlockColor];
 
-    // Get the selected block type object
-    const selectedType = blockTypes[index];
-
-    // Create a material with the loaded texture
-    const textureLoader = new THREE.TextureLoader();
-    const texture = textureLoader.load(selectedType.texture);
-    const blockMaterial = new THREE.MeshStandardMaterial({ map: texture });
-
-    // Update UI
-    selectedBlockColor = index;
-    updateUI();
-    updateHotbarUI();
-
-    return blockMaterial;
+    // Check if the selected color is a string (assumed to be a texture URL)
+    if (typeof selectedColor === 'string') {
+        // Load texture
+        const textureLoader = new THREE.TextureLoader();
+        const texture = textureLoader.load(selectedColor);
+        return new THREE.MeshStandardMaterial({ map: texture });
+    } else {
+        // Return color as usual
+        return new THREE.MeshStandardMaterial({ color: selectedColor });
+    }
 }
+
 
 
             function updateHotbarUI() {
